@@ -5,7 +5,7 @@ import type {
 } from "../types/location";
 import { geocodeMock, getRouteMock } from "./mockApi";
 
-const API_BASE = "/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "/api";
 const USE_MOCK = import.meta.env.VITE_MOCK_MODE === "true";
 
 /**
