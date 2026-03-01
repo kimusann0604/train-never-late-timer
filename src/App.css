@@ -1074,6 +1074,8 @@
 }
 
 /* ===== RESPONSIVE ===== */
+
+/* Tablet */
 @media (max-width: 900px) {
   .main-layout {
     grid-template-columns: 1fr;
@@ -1083,97 +1085,479 @@
   .topnav-subtitle { display: none; }
 }
 
+/* Mobile */
 @media (max-width: 600px) {
+  /* -- Dashboard -- */
+  .dashboard {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* -- Top Nav -- */
   .topnav {
-    height: 56px;
+    height: 52px;
     padding: 0 12px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .topnav-left {
+    gap: 8px;
   }
 
   .topnav-logo {
-    width: 36px; height: 36px;
-    font-size: 20px;
+    width: 32px; height: 32px;
+    font-size: 18px;
+    border-radius: 8px;
   }
 
   .topnav-title {
-    font-size: 16px;
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+
+  .topnav-subtitle {
+    display: none;
+  }
+
+  .topnav-right {
+    gap: 10px;
   }
 
   .topnav-time {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .topnav-train-icon {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .topnav-status {
-    padding: 6px 10px;
-    font-size: 11px;
+    padding: 4px 8px;
+    font-size: 10px;
+    gap: 5px;
   }
 
+  .status-dot {
+    width: 6px; height: 6px;
+  }
+
+  /* -- Main Layout: stack vertically, alarm first -- */
   .main-layout {
-    margin: 16px auto;
-    gap: 16px;
+    margin: 12px auto;
+    padding: 0 12px;
+    gap: 12px;
   }
 
-  .station-row {
-    grid-template-columns: 30px 1fr 1fr 70px;
-    padding: 12px 16px;
+  .right-col {
+    padding: 0 12px 12px;
+    gap: 12px;
+    order: -1;
   }
-  .sr-tag { display: none; }
 
-  .route-info-bar {
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 14px 20px;
+  /* Reorder: alarm controls above route map on mobile */
+  .dashboard {
+    display: flex;
+    flex-direction: column;
+  }
+  .dashboard > .right-col {
+    order: -1;
+  }
+
+  /* -- Route Card -- */
+  .route-card {
+    border-radius: 12px;
   }
 
   .route-card-header {
-    padding: 20px 20px 16px;
+    padding: 16px 16px 14px;
+  }
+
+  .route-title {
+    font-size: 13px;
+  }
+
+  .route-title-row {
+    margin-bottom: 16px;
   }
 
   .station-map {
-    padding: 0 8px;
+    padding: 0 4px;
   }
 
   .stations-labels {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
+    padding: 0 4px;
   }
 
   .station-label-badge {
     font-size: 11px;
-    padding: 5px 12px;
-    max-width: 120px;
+    padding: 4px 10px;
+    max-width: 110px;
+  }
+
+  .track-visual {
+    height: 48px;
+    margin: 0 4px;
+  }
+
+  .track-train {
+    font-size: 28px;
+  }
+
+  .route-info-bar {
+    padding: 12px 14px;
+    gap: 8px;
+    flex-direction: column;
+  }
+
+  .route-info-item {
+    gap: 8px;
+  }
+
+  .route-info-icon {
+    width: 32px; height: 32px;
+    font-size: 16px;
+    border-radius: 6px;
+  }
+
+  .route-info-label {
+    font-size: 10px;
+  }
+
+  .route-info-value {
+    font-size: 13px;
+  }
+
+  /* -- Station List Card -- */
+  .station-list-card {
+    border-radius: 12px;
+  }
+
+  .card-header {
+    padding: 14px 16px;
+  }
+
+  .card-title {
+    font-size: 13px;
+  }
+
+  .station-row {
+    grid-template-columns: 28px 1fr 1fr 60px;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .sr-tag { display: none; }
+
+  .sr-name {
+    font-size: 12px;
+  }
+
+  .sr-name-en {
+    font-size: 9px;
+  }
+
+  .sr-time {
+    font-size: 10px;
+  }
+
+  .sr-status {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  /* -- Alarm Card -- */
+  .alarm-card {
+    border-radius: 12px;
+  }
+
+  .alarm-card-inner {
+    padding: 16px 14px;
+  }
+
+  .alarm-settings {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .alarm-setting {
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+
+  .alarm-setting-left {
+    gap: 10px;
+  }
+
+  .alarm-setting-icon {
+    width: 36px; height: 36px;
+    font-size: 18px;
+    border-radius: 8px;
+  }
+
+  .alarm-setting-label {
+    font-size: 10px;
   }
 
   .alarm-setting-value {
     font-size: 15px;
   }
 
-  .alarm-btn {
+  .alarm-setting-arrow {
     font-size: 18px;
+  }
+
+  /* -- Alarm Button -- */
+  .alarm-btn-wrap {
+    margin-bottom: 16px;
+  }
+
+  .alarm-btn {
     padding: 16px;
+    font-size: 18px;
+    border-radius: 50px;
+    letter-spacing: 1px;
+    gap: 8px;
+    box-shadow: 0 4px 0 #c06800, 0 6px 16px rgba(245,146,27,0.35);
+    min-height: 56px;
   }
 
-  .modal-box {
-    width: calc(100% - 32px);
-    max-height: 80vh;
+  .alarm-btn-icon {
+    font-size: 22px;
   }
 
+  .alarm-btn:hover {
+    transform: none;
+    box-shadow: 0 4px 0 #c06800, 0 6px 16px rgba(245,146,27,0.35);
+  }
+
+  .alarm-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #c06800, 0 3px 8px rgba(245,146,27,0.3);
+  }
+
+  /* -- Feature Toggles -- */
+  .feature-toggles {
+    gap: 8px;
+  }
+
+  .feature-toggle {
+    padding: 12px 14px;
+    border-radius: 10px;
+    min-height: 48px;
+  }
+
+  .feature-toggle-left {
+    gap: 10px;
+  }
+
+  .feature-toggle-icon {
+    font-size: 20px;
+  }
+
+  .feature-toggle-name {
+    font-size: 13px;
+  }
+
+  .feature-toggle-desc {
+    font-size: 10px;
+  }
+
+  .toggle-switch {
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+  }
+
+  .toggle-switch::after {
+    width: 18px;
+    height: 18px;
+  }
+
+  .toggle-switch.on::after {
+    transform: translateX(20px);
+  }
+
+  /* -- Sleep Card -- */
   .sleep-card {
-    min-height: 100px;
-    padding: 24px 16px;
+    min-height: 80px;
+    padding: 20px 14px;
+    border-radius: 12px;
+    gap: 14px;
+  }
+
+  .sleeper-body {
+    width: 70px;
+    height: 85px;
+  }
+
+  .seat {
+    width: 62px; height: 54px;
+  }
+
+  .person-head {
+    width: 32px; height: 32px;
+    left: 19px;
+  }
+
+  .person-hair {
+    width: 34px; height: 19px;
+    left: 18px;
+  }
+
+  .person-suit {
+    width: 42px; height: 34px;
+    left: 14px;
+    top: 28px;
+  }
+
+  .zzz-bubble {
+    font-size: 18px;
+    top: -10px;
+    right: -12px;
   }
 
   .sleep-text-big {
-    font-size: 32px;
+    font-size: 28px;
   }
 
+  /* -- Warning Card -- */
+  .warning-card {
+    border-radius: 12px;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .warning-icon {
+    width: 28px; height: 28px;
+    font-size: 15px;
+  }
+
+  .warning-text {
+    font-size: 12px;
+  }
+
+  /* -- Modals: bottom sheet on mobile -- */
+  .modal-overlay {
+    align-items: flex-end;
+  }
+
+  .modal-box {
+    width: 100%;
+    max-width: 100%;
+    max-height: 85vh;
+    max-height: 85dvh;
+    border-radius: 20px 20px 0 0;
+    animation: modalSlideUp 0.3s ease;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  @keyframes modalSlideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-header {
+    padding: 16px 18px;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .modal-header::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    background: #ddd;
+    border-radius: 2px;
+  }
+
+  .modal-title {
+    font-size: 15px;
+    padding-top: 8px;
+  }
+
+  .modal-close {
+    width: 28px; height: 28px;
+    font-size: 16px;
+  }
+
+  .modal-body {
+    padding: 8px 12px 16px;
+  }
+
+  .modal-search-input {
+    font-size: 16px; /* prevent iOS zoom */
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+
+  .modal-option {
+    padding: 14px 16px;
+    border-radius: 10px;
+    min-height: 48px;
+    font-size: 14px;
+  }
+
+  /* -- Error Banner -- */
   .error-banner {
-    top: 66px;
-    right: 10px;
-    left: 10px;
+    top: auto;
+    bottom: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    right: 12px;
+    left: 12px;
     max-width: none;
+    border-radius: 12px;
+    font-size: 13px;
+    padding: 12px 16px;
+    text-align: center;
+  }
+}
+
+/* Very small phones (iPhone SE, etc.) */
+@media (max-width: 375px) {
+  .topnav-title {
+    font-size: 12px;
+  }
+
+  .topnav-status {
+    display: none;
+  }
+
+  .alarm-setting-value {
+    font-size: 13px;
+  }
+
+  .alarm-btn {
+    font-size: 16px;
+    padding: 14px;
+    min-height: 50px;
+  }
+
+  .station-label-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    max-width: 90px;
+  }
+
+  .feature-toggle-desc {
+    display: none;
+  }
+
+  .sleep-card {
+    min-height: 60px;
+    padding: 16px 12px;
+  }
+
+  .sleep-text-big {
+    font-size: 22px;
   }
 }
 
@@ -1254,4 +1638,38 @@
   border-radius: 3px;
   transition: width 1s linear;
   box-shadow: 0 0 12px rgba(255, 107, 107, 0.4);
+}
+
+/* Countdown mobile */
+@media (max-width: 600px) {
+  .countdown-screen {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .countdown-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .countdown-title {
+    font-size: 20px;
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+  }
+
+  .countdown-timer {
+    font-size: 80px;
+    margin-bottom: 4px;
+  }
+
+  .countdown-label {
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+
+  .countdown-bar-track {
+    width: 80%;
+    max-width: 280px;
+  }
 }

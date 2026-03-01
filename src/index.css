@@ -4,10 +4,14 @@ body {
   font-family: 'Noto Sans JP', 'M PLUS Rounded 1c', sans-serif;
   background: linear-gradient(135deg, #eef2f7 0%, #e4e8ee 50%, #dde4ec 100%);
   min-height: 100vh;
+  min-height: 100dvh;
   color: #1e1e1e;
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #root {
   min-height: 100vh;
+  min-height: 100dvh;
 }
