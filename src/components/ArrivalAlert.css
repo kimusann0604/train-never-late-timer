@@ -1,0 +1,78 @@
+.arrival-alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.arrival-alert-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.alert-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.arrival-alert-modal h1 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.destination-name {
+  font-size: 1.2rem;
+  color: #007bff;
+  font-weight: 500;
+  margin: 10px 0;
+}
+
+.alert-message {
+  color: #666;
+  font-size: 1rem;
+  margin: 15px 0 25px 0;
+  line-height: 1.5;
+}
+
+.dismiss-button {
+  padding: 12px 30px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dismiss-button:hover {
+  background-color: #218838;
+}
+
+.dismiss-button:active {
+  background-color: #1e7e34;
+}
