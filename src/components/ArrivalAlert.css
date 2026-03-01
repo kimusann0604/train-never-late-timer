@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 20px;
 }
 
 .arrival-alert-modal {
@@ -16,6 +17,7 @@
   border-radius: 12px;
   padding: 40px;
   max-width: 400px;
+  width: 100%;
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   animation: slideIn 0.3s ease-out;
@@ -75,4 +77,74 @@
 
 .dismiss-button:active {
   background-color: #1e7e34;
+}
+
+/* ===== レスポンシブデザイン ===== */
+
+/* タブレット (768px以下) */
+@media (max-width: 768px) {
+  .arrival-alert-modal {
+    padding: 30px;
+    border-radius: 10px;
+  }
+
+  .alert-icon {
+    font-size: 2.5rem;
+  }
+
+  .arrival-alert-modal h1 {
+    font-size: 1.5rem;
+  }
+
+  .destination-name {
+    font-size: 1.05rem;
+  }
+
+  .alert-message {
+    font-size: 0.95rem;
+    margin: 12px 0 20px 0;
+  }
+
+  .dismiss-button {
+    padding: 10px 25px;
+    font-size: 0.95rem;
+  }
+}
+
+/* スマートフォン (480px以下) */
+@media (max-width: 480px) {
+  .arrival-alert-overlay {
+    padding: 15px;
+  }
+
+  .arrival-alert-modal {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .alert-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+
+  .arrival-alert-modal h1 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+
+  .destination-name {
+    font-size: 0.95rem;
+    margin: 8px 0;
+  }
+
+  .alert-message {
+    font-size: 0.85rem;
+    margin: 10px 0 15px 0;
+  }
+
+  .dismiss-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
 }

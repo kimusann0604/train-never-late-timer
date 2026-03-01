@@ -145,3 +145,107 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 999;
 }
+
+/* ===== レスポンシブデザイン ===== */
+
+/* タブレット (768px以下) */
+@media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .app-main {
+    padding: 15px;
+  }
+
+  .monitoring-panel {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .info-item span {
+    font-size: 0.8rem;
+  }
+
+  .distance-value {
+    font-size: 1rem !important;
+  }
+
+  .error-banner {
+    max-width: calc(100% - 40px);
+  }
+}
+
+/* スマートフォン (480px以下) */
+@media (max-width: 480px) {
+  .app-header {
+    padding: 15px;
+  }
+
+  .app-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .app-main {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .monitoring-panel {
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  .monitoring-panel h2 {
+    font-size: 1.3rem;
+  }
+
+  .location-info {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .info-item {
+    font-size: 0.8rem;
+  }
+
+  .info-item label {
+    min-width: 70px;
+  }
+
+  .info-item span {
+    font-size: 0.75rem;
+  }
+
+  .distance-display {
+    padding: 10px;
+  }
+
+  .distance-value {
+    font-size: 0.95rem !important;
+  }
+
+  .status-message {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .cancel-button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .error-banner {
+    top: 10px;
+    right: 10px;
+    padding: 12px;
+    font-size: 0.85rem;
+    max-width: calc(100% - 20px);
+  }
+}

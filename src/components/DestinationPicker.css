@@ -99,3 +99,76 @@
 .confirm-button:active {
   background-color: #003d82;
 }
+
+/* ===== レスポンシブデザイン ===== */
+
+/* タブレット (768px以下) */
+@media (max-width: 768px) {
+  .destination-picker {
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  .destination-picker h2 {
+    font-size: 1.3rem;
+  }
+
+  .candidate-item {
+    padding: 10px;
+  }
+
+  .candidate-address {
+    font-size: 0.9rem;
+  }
+
+  .candidate-coordinates {
+    font-size: 0.8rem;
+  }
+}
+
+/* スマートフォン (480px以下) */
+@media (max-width: 480px) {
+  .destination-picker {
+    padding: 12px;
+    border-radius: 6px;
+  }
+
+  .destination-picker h2 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+
+  .address-input {
+    padding: 8px;
+    font-size: 16px; /* iOS での自動ズーム防止 */
+  }
+
+  .error-message {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  .candidates-list h3 {
+    font-size: 0.95rem;
+  }
+
+  .candidate-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    gap: 6px;
+  }
+
+  .candidate-address {
+    font-size: 0.85rem;
+  }
+
+  .candidate-coordinates {
+    font-size: 0.75rem;
+  }
+
+  .confirm-button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    width: 100%;
+  }
+}
