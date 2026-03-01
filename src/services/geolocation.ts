@@ -15,6 +15,9 @@ let mockCurrentLng = 0;
  */
 export function setMockDestination(dest: Coordinates): void {
   mockSimulationTarget = dest;
+  // 現在地 = 目的地としてシミュレーション（即到着）
+  mockCurrentLat = dest.lat;
+  mockCurrentLng = dest.lng;
 }
 
 /**
