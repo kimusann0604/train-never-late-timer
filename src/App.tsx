@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { DestinationPicker } from "./components/DestinationPicker";
-import { ArrivalAlert } from "./components/ArrivalAlert";
+import StationBoard from "./components/ArrivalAlert";
 import { LocationWatcher } from "./services/locationWatcher";
 import { getCurrentPosition } from "./services/geolocation";
 import type { Coordinates, GeolocationResult } from "./types/location";
@@ -144,10 +144,7 @@ function App() {
         )}
 
         {state === "arrived" && (
-          <ArrivalAlert
-            destination={destinationName || "目的地"}
-            onDismiss={handleArrivalDismiss}
-          />
+          <StationBoard />
         )}
 
         {error && <div className="error-banner">{error}</div>}
