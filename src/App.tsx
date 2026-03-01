@@ -41,8 +41,8 @@ function App() {
   // Initial distance for progress calculation
   const [initialDistance, setInitialDistance] = useState<number | null>(null);
 
-  // Countdown timer (30 seconds after arrival)
-  const [countdown, setCountdown] = useState(30);
+  // Countdown timer (10 seconds after arrival)
+  const [countdown, setCountdown] = useState(10);
 
   // Clock
   useEffect(() => {
@@ -142,7 +142,7 @@ function App() {
         alertThresholdMeters: notifyDistance,
         onArrival: () => {
           setState("countdown");
-          setCountdown(30);
+          setCountdown(10);
         },
         onLocationUpdate: (location) => {
           setCurrentLocation(location);
@@ -212,7 +212,7 @@ function App() {
           <div className="countdown-bar-track">
             <div
               className="countdown-bar-fill"
-              style={{ width: `${((30 - countdown) / 30) * 100}%` }}
+              style={{ width: `${((10 - countdown) / 10) * 100}%` }}
             />
           </div>
         </div>
