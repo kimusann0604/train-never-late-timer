@@ -3,6 +3,7 @@ import { geocode } from "./services/api";
 import StationBoard from "./components/ArrivalAlert";
 import { LocationWatcher } from "./services/locationWatcher";
 import { getCurrentPosition } from "./services/geolocation";
+import { requestPermission, registerServiceWorker, startNotificationSpam, stopNotificationSpam } from "./services/notification";
 import type { Coordinates, GeolocationResult, GeocodeResult } from "./types/location";
 import "./App.css";
 
@@ -103,6 +104,7 @@ function App() {
   };
 
   const resetState = () => {
+    stopNotificationSpam();
     if (watcher) {
       watcher.stop();
       setWatcher(null);
@@ -126,6 +128,9 @@ function App() {
 
     setError(null);
     try {
+      await requestPermission();
+      await registerServiceWorker();
+
       const position = await getCurrentPosition();
       setCurrentLocation(position);
       const dist = calculateDistance(position, destination);
@@ -161,10 +166,11 @@ function App() {
     };
   }, [watcher]);
 
-  // Countdown timer: 30s → arrived
+  // Countdown timer: 30s → arrived + notification spam
   useEffect(() => {
     if (state !== "countdown") return;
     if (countdown <= 0) {
+      startNotificationSpam();
       setState("arrived");
       return;
     }

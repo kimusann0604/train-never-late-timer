@@ -112,6 +112,11 @@ export default function StationBoard({ onComplete }: StationBoardProps) {
           0% { transform: translateY(0) scale(1); opacity: 0.7; }
           100% { transform: translateY(-150px) scale(4); opacity: 0; }
         }
+
+        @keyframes stopBtnPulse {
+          0% { transform: translateX(-50%) scale(1); box-shadow: 0 0 30px rgba(255,34,34,0.8), 0 0 60px rgba(255,34,34,0.4); }
+          100% { transform: translateX(-50%) scale(1.1); box-shadow: 0 0 50px rgba(255,34,34,1), 0 0 100px rgba(255,34,34,0.6); }
+        }
       `}</style>
 
       <div
@@ -187,7 +192,9 @@ export default function StationBoard({ onComplete }: StationBoardProps) {
               width: "100%",
               height: "100%",
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
+              justifyContent: "center",
               overflow: "hidden",
               animation: "fadeIn 0.8s ease-out",
             }}
@@ -216,6 +223,30 @@ export default function StationBoard({ onComplete }: StationBoardProps) {
                 </span>
               ))}
             </div>
+            <button
+              onClick={onComplete}
+              style={{
+                position: "fixed",
+                bottom: "60px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                padding: "20px 60px",
+                fontSize: "24px",
+                fontWeight: 900,
+                fontFamily: "'DotGothic16', monospace",
+                color: "#fff",
+                background: "#ff2222",
+                border: "4px solid #fff",
+                borderRadius: "16px",
+                cursor: "pointer",
+                zIndex: 100,
+                boxShadow: "0 0 30px rgba(255,34,34,0.8), 0 0 60px rgba(255,34,34,0.4)",
+                animation: "stopBtnPulse 0.5s ease-in-out infinite alternate",
+                letterSpacing: "0.1em",
+              }}
+            >
+              STOP
+            </button>
           </div>
         )}
       </div>
