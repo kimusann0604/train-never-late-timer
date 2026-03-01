@@ -95,23 +95,27 @@ function App() {
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos((from.lat * Math.PI) / 180) *
-        Math.cos((to.lat * Math.PI) / 180) *
-        Math.sin(dLng / 2) *
-        Math.sin(dLng / 2);
+      Math.cos((to.lat * Math.PI) / 180) *
+      Math.sin(dLng / 2) *
+      Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return Math.round(R * c);
   };
 
+  const resetState = () => {
+    if (watcher) {
+      watcher.stop();
+      setWatcher(null);
+    }
+    setState("picking");
+    setCurrentLocation(null);
+    setDistance(null);
+    setInitialDistance(null);
+  };
+
   const toggleAlarm = async () => {
     if (state === "monitoring") {
-      if (watcher) {
-        watcher.stop();
-        setWatcher(null);
-      }
-      setState("picking");
-      setCurrentLocation(null);
-      setDistance(null);
-      setInitialDistance(null);
+      resetState();
       return;
     }
 
@@ -212,7 +216,7 @@ function App() {
 
   // Arrived → show SL animation
   if (state === "arrived") {
-    return <StationBoard />;
+    return <StationBoard onComplete={resetState} />;
   }
 
   return (
@@ -237,174 +241,174 @@ function App() {
       {/* Main Layout */}
       <div className="main-layout">
         {/* LEFT COLUMN */}
-        <div className="left-col">
-          {/* Route Map Card */}
-          <div className="route-card">
-            <div className="route-card-header">
-              <div className="skyline-bg" />
-              <div className="route-title-row">
-                <div className="route-title">ルート情報</div>
-              </div>
-              <div className="station-map">
-                <div className="stations-labels">
-                  <div className="station-label-item">
-                    <div className="station-label-badge">
-                      {currentLocation ? "現在地" : "出発地"}
-                    </div>
-                  </div>
-                  <div className="station-label-item">
-                    <div className="station-label-badge destination">{shortDestName}</div>
-                  </div>
-                </div>
-                <div className="track-visual">
-                  <div className="track-rail" />
-                  <div
-                    className="track-progress-bar"
-                    style={{ width: `${progressPercent}%` }}
-                  />
-                  <div className="track-station-dot passed" style={{ left: "5%" }} />
-                  {state === "monitoring" && (
-                    <div
-                      className="track-station-dot current"
-                      style={{
-                        left: `${Math.max(8, Math.min(88, 5 + progressPercent * 0.9))}%`,
-                      }}
-                    />
-                  )}
-                  <div className="track-station-dot upcoming" style={{ left: "95%" }} />
-                  {state === "monitoring" && (
-                    <div
-                      className="track-train"
-                      style={{
-                        left: `${Math.max(8, Math.min(88, 5 + progressPercent * 0.9))}%`,
-                      }}
-                    >
-                      🚃
-                    </div>
-                  )}
-                  <div className="track-pin">
-                    <div className="pin-body">
-                      <div className="pin-body-inner" />
-                    </div>
-                  </div>
-                </div>
-              </div>
+        {/* <div className="left-col"> */}
+        {/* Route Map Card */}
+        <div className="route-card">
+          <div className="route-card-header">
+            <div className="skyline-bg" />
+            <div className="route-title-row">
+              <div className="route-title">ルート情報</div>
             </div>
-            <div className="route-info-bar">
-              <div className="route-info-item">
-                <div className="route-info-icon">📍</div>
-                <div>
-                  <div className="route-info-label">現在地</div>
-                  <div className="route-info-value">
-                    {currentLocation
-                      ? `${currentLocation.lat.toFixed(4)}, ${currentLocation.lng.toFixed(4)}`
-                      : "未取得"}
+            <div className="station-map">
+              <div className="stations-labels">
+                <div className="station-label-item">
+                  <div className="station-label-badge">
+                    {currentLocation ? "現在地" : "出発地"}
                   </div>
                 </div>
-              </div>
-              <div className="route-info-item">
-                <div className="route-info-icon">🏁</div>
-                <div>
-                  <div className="route-info-label">目的地まで</div>
-                  <div className="route-info-value">
-                    {distance !== null ? formatDistance(distance) : "—"}
-                  </div>
+                <div className="station-label-item">
+                  <div className="station-label-badge destination">{shortDestName}</div>
                 </div>
               </div>
-              <div className="route-info-item">
-                <div className="route-info-icon">⏱️</div>
-                <div>
-                  <div className="route-info-label">ステータス</div>
-                  <div className="route-info-value">
-                    {state === "monitoring"
-                      ? distance !== null && distance <= notifyDistance
-                        ? "もうすぐ到着！"
-                        : "移動中..."
-                      : "待機中"}
+              <div className="track-visual">
+                <div className="track-rail" />
+                <div
+                  className="track-progress-bar"
+                  style={{ width: `${progressPercent}%` }}
+                />
+                <div className="track-station-dot passed" style={{ left: "5%" }} />
+                {state === "monitoring" && (
+                  <div
+                    className="track-station-dot current"
+                    style={{
+                      left: `${Math.max(8, Math.min(88, 5 + progressPercent * 0.9))}%`,
+                    }}
+                  />
+                )}
+                <div className="track-station-dot upcoming" style={{ left: "95%" }} />
+                {state === "monitoring" && (
+                  <div
+                    className="track-train"
+                    style={{
+                      left: `${Math.max(8, Math.min(88, 5 + progressPercent * 0.9))}%`,
+                    }}
+                  >
+                    🚃
+                  </div>
+                )}
+                <div className="track-pin">
+                  <div className="pin-body">
+                    <div className="pin-body-inner" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* Location Detail Card */}
-          {state === "monitoring" && currentLocation && destination && (
-            <div className="station-list-card">
-              <div className="card-header">
-                <div className="card-title">位置情報詳細</div>
-              </div>
-              <div className="station-table">
-                <div className="station-row current-station">
-                  <div className="sr-dot current" />
-                  <div>
-                    <div className="sr-name">現在地</div>
-                    <div className="sr-name-en">Current Location</div>
-                  </div>
-                  <div className="sr-time">
-                    {currentLocation.lat.toFixed(6)}, {currentLocation.lng.toFixed(6)}
-                  </div>
-                  <div>
-                    <span className="sr-status now">現在</span>
-                  </div>
-                  <div className="sr-tag" />
-                </div>
-                <div className="station-row destination-station">
-                  <div className="sr-dot dest" />
-                  <div>
-                    <div className="sr-name">{shortDestName}</div>
-                    <div className="sr-name-en">Destination</div>
-                  </div>
-                  <div className="sr-time">
-                    {destination.lat.toFixed(6)}, {destination.lng.toFixed(6)}
-                  </div>
-                  <div>
-                    <span className="sr-status upcoming">—</span>
-                  </div>
-                  <div className="sr-tag">
-                    <span className="dest-badge">目的地</span>
-                  </div>
+          <div className="route-info-bar">
+            <div className="route-info-item">
+              <div className="route-info-icon">📍</div>
+              <div>
+                <div className="route-info-label">現在地</div>
+                <div className="route-info-value">
+                  {currentLocation
+                    ? `${currentLocation.lat.toFixed(4)}, ${currentLocation.lng.toFixed(4)}`
+                    : "未取得"}
                 </div>
               </div>
             </div>
-          )}
+            <div className="route-info-item">
+              <div className="route-info-icon">🏁</div>
+              <div>
+                <div className="route-info-label">目的地まで</div>
+                <div className="route-info-value">
+                  {distance !== null ? formatDistance(distance) : "—"}
+                </div>
+              </div>
+            </div>
+            <div className="route-info-item">
+              <div className="route-info-icon">⏱️</div>
+              <div>
+                <div className="route-info-label">ステータス</div>
+                <div className="route-info-value">
+                  {state === "monitoring"
+                    ? distance !== null && distance <= notifyDistance
+                      ? "もうすぐ到着！"
+                      : "移動中..."
+                    : "待機中"}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* RIGHT COLUMN */}
-        <div className="right-col">
-          {/* Alarm Control */}
-          <div className="alarm-card">
+        {/* Location Detail Card */}
+        {state === "monitoring" && currentLocation && destination && (
+          <div className="station-list-card">
             <div className="card-header">
-              <div className="card-title">アラーム設定</div>
+              <div className="card-title">位置情報詳細</div>
             </div>
-            <div className="alarm-card-inner">
-              <div className="alarm-settings">
-                <div
-                  className={`alarm-setting ${state === "monitoring" ? "disabled" : ""}`}
-                  onClick={() => state !== "monitoring" && setShowStationModal(true)}
-                >
-                  <div className="alarm-setting-left">
-                    <div className="alarm-setting-icon">🚉</div>
-                    <div>
-                      <div className="alarm-setting-label">目的地</div>
-                      <div className="alarm-setting-value">{shortDestName}</div>
-                    </div>
-                  </div>
-                  <div className="alarm-setting-arrow">›</div>
+            <div className="station-table">
+              <div className="station-row current-station">
+                <div className="sr-dot current" />
+                <div>
+                  <div className="sr-name">現在地</div>
+                  <div className="sr-name-en">Current Location</div>
                 </div>
-                <div
-                  className={`alarm-setting ${state === "monitoring" ? "disabled" : ""}`}
-                  onClick={() => state !== "monitoring" && setShowNotifyModal(true)}
-                >
-                  <div className="alarm-setting-left">
-                    <div className="alarm-setting-icon">🔔</div>
-                    <div>
-                      <div className="alarm-setting-label">通知タイミング</div>
-                      <div className="alarm-setting-value">{notifyLabel}</div>
-                    </div>
-                  </div>
-                  <div className="alarm-setting-arrow">›</div>
+                <div className="sr-time">
+                  {currentLocation.lat.toFixed(6)}, {currentLocation.lng.toFixed(6)}
+                </div>
+                <div>
+                  <span className="sr-status now">現在</span>
+                </div>
+                <div className="sr-tag" />
+              </div>
+              <div className="station-row destination-station">
+                <div className="sr-dot dest" />
+                <div>
+                  <div className="sr-name">{shortDestName}</div>
+                  <div className="sr-name-en">Destination</div>
+                </div>
+                <div className="sr-time">
+                  {destination.lat.toFixed(6)}, {destination.lng.toFixed(6)}
+                </div>
+                <div>
+                  <span className="sr-status upcoming">—</span>
+                </div>
+                <div className="sr-tag">
+                  <span className="dest-badge">目的地</span>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* RIGHT COLUMN */}
+      <div className="right-col">
+        {/* Alarm Control */}
+        <div className="alarm-card">
+          <div className="card-header">
+            <div className="card-title">アラーム設定</div>
+          </div>
+          <div className="alarm-card-inner">
+            <div className="alarm-settings">
+              <div
+                className={`alarm-setting ${state === "monitoring" ? "disabled" : ""}`}
+                onClick={() => state !== "monitoring" && setShowStationModal(true)}
+              >
+                <div className="alarm-setting-left">
+                  <div className="alarm-setting-icon">🚉</div>
+                  <div>
+                    <div className="alarm-setting-label">目的地</div>
+                    <div className="alarm-setting-value">{shortDestName}</div>
+                  </div>
+                </div>
+                <div className="alarm-setting-arrow">›</div>
+              </div>
+              <div
+                className={`alarm-setting ${state === "monitoring" ? "disabled" : ""}`}
+                onClick={() => state !== "monitoring" && setShowNotifyModal(true)}
+              >
+                <div className="alarm-setting-left">
+                  <div className="alarm-setting-icon">🔔</div>
+                  <div>
+                    <div className="alarm-setting-label">通知タイミング</div>
+                    <div className="alarm-setting-value">{notifyLabel}</div>
+                  </div>
+                </div>
+                <div className="alarm-setting-arrow">›</div>
+              </div>
+            </div>
 
               <div className="alarm-btn-wrap">
                 <button
@@ -419,169 +423,173 @@ function App() {
                 </button>
               </div>
 
-              <div className="feature-toggles">
-                <div className="feature-toggle" onClick={() => setAlarmSound(!alarmSound)}>
-                  <div className="feature-toggle-left">
-                    <div className="feature-toggle-icon">🔔</div>
-                    <div>
-                      <div className="feature-toggle-name">アラーム音</div>
-                      <div className="feature-toggle-desc">
-                        目的地が近づくとアラームで通知
-                      </div>
+            <div className="feature-toggles">
+              <div className="feature-toggle" onClick={() => setAlarmSound(!alarmSound)}>
+                <div className="feature-toggle-left">
+                  <div className="feature-toggle-icon">🔔</div>
+                  <div>
+                    <div className="feature-toggle-name">アラーム音</div>
+                    <div className="feature-toggle-desc">
+                      目的地が近づくとアラームで通知
                     </div>
                   </div>
-                  <div className={`toggle-switch ${alarmSound ? "on" : ""}`} />
                 </div>
-                <div className="feature-toggle" onClick={() => setVibration(!vibration)}>
-                  <div className="feature-toggle-left">
-                    <div className="feature-toggle-icon">📳</div>
-                    <div>
-                      <div className="feature-toggle-name">振動通知</div>
-                      <div className="feature-toggle-desc">バイブレーションで通知</div>
+                <div className={`toggle-switch ${alarmSound ? "on" : ""}`} />
+              </div>
+              <div className="feature-toggle" onClick={() => setVibration(!vibration)}>
+                <div className="feature-toggle-left">
+                  <div className="feature-toggle-icon">📳</div>
+                  <div>
+                    <div className="feature-toggle-name">振動通知</div>
+                    <div className="feature-toggle-desc">バイブレーションで通知</div>
+                  </div>
+                </div>
+                <div className={`toggle-switch ${vibration ? "on" : ""}`} />
+              </div>
+              <div
+                className="feature-toggle"
+                onClick={() => setDrowsyPrevention(!drowsyPrevention)}
+              >
+                <div className="feature-toggle-left">
+                  <div className="feature-toggle-icon">😪</div>
+                  <div>
+                    <div className="feature-toggle-name">うとうと防止</div>
+                    <div className="feature-toggle-desc">
+                      定期的に軽いアラームで起こす
                     </div>
                   </div>
-                  <div className={`toggle-switch ${vibration ? "on" : ""}`} />
                 </div>
-                <div
-                  className="feature-toggle"
-                  onClick={() => setDrowsyPrevention(!drowsyPrevention)}
-                >
-                  <div className="feature-toggle-left">
-                    <div className="feature-toggle-icon">😪</div>
-                    <div>
-                      <div className="feature-toggle-name">うとうと防止</div>
-                      <div className="feature-toggle-desc">
-                        定期的に軽いアラームで起こす
-                      </div>
-                    </div>
-                  </div>
-                  <div className={`toggle-switch ${drowsyPrevention ? "on" : ""}`} />
-                </div>
+                <div className={`toggle-switch ${drowsyPrevention ? "on" : ""}`} />
               </div>
             </div>
-          </div>
-
-          {/* Sleep Illustration */}
-          <div className="sleep-card">
-            <div className="sleeper-visual">
-              <div className="sleeper-body">
-                <div className="person-hair" />
-                <div className="person-head" />
-                <div className="person-suit" />
-                <div className="seat" />
-                <div className="zzz-bubble">
-                  Z<small>z</small>
-                  <small style={{ fontSize: "0.6em" }}>z</small>..
-                </div>
-              </div>
-            </div>
-            <div className="sleep-text-big">Zzz..</div>
-          </div>
-
-          {/* Warning */}
-          <div className="warning-card">
-            <div className="warning-icon">⚠</div>
-            <div className="warning-text">注意: 寝過ごしにご注意ください！</div>
           </div>
         </div>
+
+        {/* Sleep Illustration */}
+        <div className="sleep-card">
+          <div className="sleeper-visual">
+            <div className="sleeper-body">
+              <div className="person-hair" />
+              <div className="person-head" />
+              <div className="person-suit" />
+              <div className="seat" />
+              <div className="zzz-bubble">
+                Z<small>z</small>
+                <small style={{ fontSize: "0.6em" }}>z</small>..
+              </div>
+            </div>
+          </div>
+          <div className="sleep-text-big">Zzz..</div>
+        </div>
+
+        {/* Warning */}
+        <div className="warning-card">
+          <div className="warning-icon">⚠</div>
+          <div className="warning-text">注意: 寝過ごしにご注意ください！</div>
+        </div>
+        {/*</div>*/}
       </div>
 
       {/* Station Modal (Destination Picker) */}
-      {showStationModal && (
-        <div
-          className="modal-overlay show"
-          onClick={(e) => e.target === e.currentTarget && setShowStationModal(false)}
-        >
-          <div className="modal-box">
-            <div className="modal-header">
-              <div className="modal-title">🚉 目的地を検索</div>
-              <button
-                className="modal-close"
-                onClick={() => {
-                  setShowStationModal(false);
-                  setSearchInput("");
-                  setSearchResults([]);
-                  setSearchError(null);
-                }}
-              >
-                ✕
-              </button>
-            </div>
-            <div className="modal-body">
-              <div className="modal-search">
-                <input
-                  type="text"
-                  value={searchInput}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  placeholder="住所・駅名を入力..."
-                  className="modal-search-input"
-                  autoFocus
-                />
-              </div>
-              {searching && <div className="modal-loading">検索中...</div>}
-              {searchError && <div className="modal-error">{searchError}</div>}
-              {searchResults.map((result) => (
-                <div
-                  key={`${result.lat}-${result.lng}`}
-                  className="modal-option"
-                  onClick={() => selectDestination(result)}
-                >
-                  <div className="opt-dot" />
-                  <div>
-                    <div>{result.formattedAddress}</div>
-                    <div style={{ fontSize: "11px", color: "#888" }}>
-                      ({result.lat.toFixed(6)}, {result.lng.toFixed(6)})
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Notify Modal */}
-      {showNotifyModal && (
-        <div
-          className="modal-overlay show"
-          onClick={(e) => e.target === e.currentTarget && setShowNotifyModal(false)}
-        >
-          <div className="modal-box">
-            <div className="modal-header">
-              <div className="modal-title">🔔 通知タイミング</div>
-              <button className="modal-close" onClick={() => setShowNotifyModal(false)}>
-                ✕
-              </button>
-            </div>
-            <div className="modal-body">
-              {[
-                { label: "1km前で通知", value: 1000 },
-                { label: "2km前で通知", value: 2000 },
-                { label: "3km前で通知", value: 3000 },
-                { label: "5km前で通知", value: 5000 },
-                { label: "到着時に通知", value: 500 },
-              ].map(({ label, value }) => (
-                <div
-                  key={value}
-                  className={`modal-option ${notifyDistance === value ? "selected" : ""}`}
+      {
+        showStationModal && (
+          <div
+            className="modal-overlay show"
+            onClick={(e) => e.target === e.currentTarget && setShowStationModal(false)}
+          >
+            <div className="modal-box">
+              <div className="modal-header">
+                <div className="modal-title">🚉 目的地を検索</div>
+                <button
+                  className="modal-close"
                   onClick={() => {
-                    setNotifyDistance(value);
-                    setNotifyLabel(label);
-                    setShowNotifyModal(false);
+                    setShowStationModal(false);
+                    setSearchInput("");
+                    setSearchResults([]);
+                    setSearchError(null);
                   }}
                 >
-                  {label}
-                  <div className="opt-check">✓</div>
+                  ✕
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="modal-search">
+                  <input
+                    type="text"
+                    value={searchInput}
+                    onChange={(e) => handleSearch(e.target.value)}
+                    placeholder="住所・駅名を入力..."
+                    className="modal-search-input"
+                    autoFocus
+                  />
                 </div>
-              ))}
+                {searching && <div className="modal-loading">検索中...</div>}
+                {searchError && <div className="modal-error">{searchError}</div>}
+                {searchResults.map((result) => (
+                  <div
+                    key={`${result.lat}-${result.lng}`}
+                    className="modal-option"
+                    onClick={() => selectDestination(result)}
+                  >
+                    <div className="opt-dot" />
+                    <div>
+                      <div>{result.formattedAddress}</div>
+                      <div style={{ fontSize: "11px", color: "#888" }}>
+                        ({result.lat.toFixed(6)}, {result.lng.toFixed(6)})
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      }
+
+      {/* Notify Modal */}
+      {
+        showNotifyModal && (
+          <div
+            className="modal-overlay show"
+            onClick={(e) => e.target === e.currentTarget && setShowNotifyModal(false)}
+          >
+            <div className="modal-box">
+              <div className="modal-header">
+                <div className="modal-title">🔔 通知タイミング</div>
+                <button className="modal-close" onClick={() => setShowNotifyModal(false)}>
+                  ✕
+                </button>
+              </div>
+              <div className="modal-body">
+                {[
+                  { label: "1km前で通知", value: 1000 },
+                  { label: "2km前で通知", value: 2000 },
+                  { label: "3km前で通知", value: 3000 },
+                  { label: "5km前で通知", value: 5000 },
+                  { label: "到着時に通知", value: 500 },
+                ].map(({ label, value }) => (
+                  <div
+                    key={value}
+                    className={`modal-option ${notifyDistance === value ? "selected" : ""}`}
+                    onClick={() => {
+                      setNotifyDistance(value);
+                      setNotifyLabel(label);
+                      setShowNotifyModal(false);
+                    }}
+                  >
+                    {label}
+                    <div className="opt-check">✓</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )
+      }
 
       {/* Error */}
       {error && <div className="error-banner">{error}</div>}
-    </div>
+    </div >
   );
 }
 
