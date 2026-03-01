@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { geocode } from "./services/api";
 import StationBoard from "./components/ArrivalAlert";
 import { LocationWatcher } from "./services/locationWatcher";
-import { getCurrentPosition } from "./services/geolocation";
+import { getCurrentPosition, setMockDestination } from "./services/geolocation";
 import { requestPermission, registerServiceWorker, startNotificationSpam, stopNotificationSpam } from "./services/notification";
 import type { Coordinates, GeolocationResult, GeocodeResult } from "./types/location";
 import "./App.css";
@@ -130,6 +130,9 @@ function App() {
     try {
       await requestPermission();
       await registerServiceWorker();
+
+      // モックモード時: シミュレーション用の目的地を設定
+      setMockDestination(destination);
 
       const position = await getCurrentPosition();
       setCurrentLocation(position);
