@@ -32,7 +32,7 @@ const SL_FRAMES = [
 export default function StationBoard() {
   const [phase, setPhase] = useState("sl");
   const [frame, setFrame] = useState(0);
-  const [slPos, setSlPos] = useState(110);
+  const [slPos, setSlPos] = useState(130);
 
   useEffect(() => {
     if (phase !== "sl") return;
@@ -46,11 +46,11 @@ export default function StationBoard() {
     if (phase !== "sl") return;
     const interval = setInterval(() => {
       setSlPos((p) => {
-        if (p < -60) {
+        if (p < -120) {
           setPhase("text");
           return p;
         }
-        return p - 0.8;
+        return p - 3.0;
       });
     }, 30);
     return () => clearInterval(interval);
@@ -73,7 +73,7 @@ export default function StationBoard() {
 
         @keyframes smokeRise {
           0% { transform: translateY(0) scale(1); opacity: 0.7; }
-          100% { transform: translateY(-80px) scale(3); opacity: 0; }
+          100% { transform: translateY(-150px) scale(4); opacity: 0; }
         }
       `}</style>
 
@@ -111,17 +111,17 @@ export default function StationBoard() {
             }}
           >
             <div style={{ position: "relative" }}>
-              {[0, 1, 2].map((i) => (
+              {[0, 1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
                   style={{
                     position: "absolute",
-                    top: "-30px",
-                    left: `${80 + i * 30}px`,
-                    color: "#666",
-                    fontSize: "28px",
+                    top: "-50px",
+                    left: `${80 + i * 50}px`,
+                    color: "#888",
+                    fontSize: "clamp(28px, 4vw, 56px)",
                     animation: `smokeRise ${1.5 + i * 0.3}s ease-out infinite`,
-                    animationDelay: `${i * 0.4}s`,
+                    animationDelay: `${i * 0.3}s`,
                   }}
                 >
                   ☁
@@ -131,10 +131,10 @@ export default function StationBoard() {
             <pre
               style={{
                 color: "#00dd00",
-                fontSize: "clamp(6px, 1.4vw, 14px)",
+                fontSize: "clamp(10px, 3vw, 32px)",
                 lineHeight: 1.15,
                 textShadow:
-                  "0 0 8px rgba(0,221,0,0.6), 0 0 20px rgba(0,221,0,0.3)",
+                  "0 0 12px rgba(0,221,0,0.7), 0 0 30px rgba(0,221,0,0.4)",
                 margin: 0,
                 whiteSpace: "pre",
               }}

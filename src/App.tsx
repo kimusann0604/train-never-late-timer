@@ -373,6 +373,7 @@ function App() {
                 <button
                   className={`alarm-btn ${state === "monitoring" ? "active" : ""}`}
                   onClick={toggleAlarm}
+                  disabled={state !== "monitoring" && !destination}
                 >
                   <span className="alarm-btn-icon">
                     {state === "monitoring" ? "🔴" : "⏰"}

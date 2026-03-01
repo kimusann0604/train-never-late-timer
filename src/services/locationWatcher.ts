@@ -23,6 +23,8 @@ export class LocationWatcher {
   // テスト用に無効化: private _skipDurationMs: number = 0;
   private pollingStartTime: number | null = null;
   private isInitialized = false;
+  private startTime: number = 0;
+  private static readonly GRACE_PERIOD_MS = 30000; // 30秒の猶予期間
 
   constructor(config: LocationWatcherConfig) {
     this.config = config;
