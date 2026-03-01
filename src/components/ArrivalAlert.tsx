@@ -50,7 +50,7 @@ export default function StationBoard() {
           setPhase("text");
           return p;
         }
-        return p - 0.8;
+        return p - 3.0;
       });
     }, 30);
     return () => clearInterval(interval);
