@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const SCROLL_TEXT = "まもなく目的地につきます";
 
@@ -29,10 +29,16 @@ const SL_FRAMES = [
   ],
 ];
 
-export default function StationBoard() {
+type StationBoardProps = {
+  onComplete?: () => void;
+};
+
+export default function StationBoard({ onComplete }: StationBoardProps) {
   const [phase, setPhase] = useState("sl");
   const [frame, setFrame] = useState(0);
   const [slPos, setSlPos] = useState(110);
+  const [scrollCount, setScrollCount] = useState(0);
+  const scrollDivRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (phase !== "sl") return;
@@ -56,6 +62,32 @@ export default function StationBoard() {
     return () => clearInterval(interval);
   }, [phase]);
 
+  useEffect(() => {
+    if (phase !== "text" || !scrollDivRef.current) return;
+
+    const handleAnimationIteration = () => {
+      setScrollCount((prev) => {
+        const newCount = prev + 1;
+        console.log(`Scroll animation iteration: ${newCount}`);
+
+        // 3回完了したら初期画面に戻す
+        if (newCount >= 3) {
+          console.log("Animation complete - returning to initial screen");
+          onComplete?.();
+        }
+
+        return newCount;
+      });
+    };
+
+    const scrollDiv = scrollDivRef.current;
+    scrollDiv.addEventListener("animationiteration", handleAnimationIteration);
+
+    return () => {
+      scrollDiv.removeEventListener("animationiteration", handleAnimationIteration);
+    };
+  }, [phase, onComplete]);
+
   return (
     <>
       <style>{`
@@ -64,6 +96,11 @@ export default function StationBoard() {
         @keyframes scrollLeft {
           0% { transform: translateX(10%); }
           100% { transform: translateX(-50%); }
+        }
+
+        @keyframes scrollLeftStop {
+          0% { transform: translateX(10%); }
+          100% { transform: translateX(10%); }
         }
 
         @keyframes fadeIn {
@@ -156,10 +193,11 @@ export default function StationBoard() {
             }}
           >
             <div
+              ref={scrollDivRef}
               style={{
                 display: "flex",
                 whiteSpace: "nowrap",
-                animation: "scrollLeft 10s linear infinite",
+                animation: `${scrollCount < 3 ? "scrollLeft" : "scrollLeftStop"} 10s linear ${scrollCount < 3 ? "infinite" : "none"}`,
               }}
             >
               {[0, 1].map((i) => (

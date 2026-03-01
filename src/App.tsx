@@ -99,16 +99,20 @@ function App() {
     return Math.round(R * c);
   };
 
+  const resetState = () => {
+    if (watcher) {
+      watcher.stop();
+      setWatcher(null);
+    }
+    setState("picking");
+    setCurrentLocation(null);
+    setDistance(null);
+    setInitialDistance(null);
+  };
+
   const toggleAlarm = async () => {
     if (state === "monitoring") {
-      if (watcher) {
-        watcher.stop();
-        setWatcher(null);
-      }
-      setState("picking");
-      setCurrentLocation(null);
-      setDistance(null);
-      setInitialDistance(null);
+      resetState();
       return;
     }
 
@@ -175,7 +179,7 @@ function App() {
 
   // Arrived → show SL animation
   if (state === "arrived") {
-    return <StationBoard />;
+    return <StationBoard onComplete={resetState} />;
   }
 
   return (
