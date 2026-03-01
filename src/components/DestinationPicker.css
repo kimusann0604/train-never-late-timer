@@ -1,0 +1,101 @@
+.destination-picker {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+}
+
+.destination-picker h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.input-group {
+  margin: 15px 0;
+}
+
+.address-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.address-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.error-message {
+  color: #d32f2f;
+  background-color: #ffebee;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.loading {
+  color: #1976d2;
+  text-align: center;
+  padding: 10px;
+  font-style: italic;
+}
+
+.candidates-list {
+  margin-top: 20px;
+}
+
+.candidates-list h3 {
+  margin-top: 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+.candidate-item {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.candidate-address {
+  font-weight: 500;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.candidate-coordinates {
+  font-size: 0.85rem;
+  color: #888;
+  font-family: monospace;
+}
+
+.confirm-button {
+  align-self: flex-start;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.confirm-button:hover {
+  background-color: #0056b3;
+}
+
+.confirm-button:active {
+  background-color: #003d82;
+}
