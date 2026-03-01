@@ -6,7 +6,7 @@ import { getCurrentPosition } from "./services/geolocation";
 import type { Coordinates, GeolocationResult, GeocodeResult } from "./types/location";
 import "./App.css";
 
-type AppState = "picking" | "monitoring" | "arrived";
+type AppState = "picking" | "monitoring" | "countdown" | "arrived";
 
 function App() {
   const [state, setState] = useState<AppState>("picking");
@@ -39,6 +39,9 @@ function App() {
 
   // Initial distance for progress calculation
   const [initialDistance, setInitialDistance] = useState<number | null>(null);
+
+  // Countdown timer (30 seconds after arrival)
+  const [countdown, setCountdown] = useState(30);
 
   // Clock
   useEffect(() => {
@@ -132,7 +135,10 @@ function App() {
       const watcherInstance = new LocationWatcher({
         destination,
         alertThresholdMeters: notifyDistance,
-        onArrival: () => setState("arrived"),
+        onArrival: () => {
+          setState("countdown");
+          setCountdown(30);
+        },
         onLocationUpdate: (location) => {
           setCurrentLocation(location);
           const d = calculateDistance(location, destination);
@@ -155,6 +161,17 @@ function App() {
     };
   }, [watcher]);
 
+  // Countdown timer: 30s → arrived
+  useEffect(() => {
+    if (state !== "countdown") return;
+    if (countdown <= 0) {
+      setState("arrived");
+      return;
+    }
+    const timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [state, countdown]);
+
   // Auto-dismiss error
   useEffect(() => {
     if (!error) return;
@@ -176,6 +193,26 @@ function App() {
       : destinationName.length > 10
         ? destinationName.slice(-10)
         : destinationName;
+
+  // Countdown → show timer before SL
+  if (state === "countdown") {
+    return (
+      <div className="countdown-screen">
+        <div className="countdown-content">
+          <div className="countdown-icon">🚃</div>
+          <div className="countdown-title">まもなく到着します</div>
+          <div className="countdown-timer">{countdown}</div>
+          <div className="countdown-label">秒後にアラームが鳴ります</div>
+          <div className="countdown-bar-track">
+            <div
+              className="countdown-bar-fill"
+              style={{ width: `${((30 - countdown) / 30) * 100}%` }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Arrived → show SL animation
   if (state === "arrived") {
@@ -373,17 +410,18 @@ function App() {
               </div>
             </div>
 
-            <div className="alarm-btn-wrap">
-              <button
-                className={`alarm-btn ${state === "monitoring" ? "active" : ""}`}
-                onClick={toggleAlarm}
-              >
-                <span className="alarm-btn-icon">
-                  {state === "monitoring" ? "🔴" : "⏰"}
-                </span>
-                <span>{state === "monitoring" ? "アラーム停止" : "アラーム開始"}</span>
-              </button>
-            </div>
+              <div className="alarm-btn-wrap">
+                <button
+                  className={`alarm-btn ${state === "monitoring" ? "active" : ""}`}
+                  onClick={toggleAlarm}
+                  disabled={state !== "monitoring" && !destination}
+                >
+                  <span className="alarm-btn-icon">
+                    {state === "monitoring" ? "🔴" : "⏰"}
+                  </span>
+                  <span>{state === "monitoring" ? "アラーム停止" : "アラーム開始"}</span>
+                </button>
+              </div>
 
             <div className="feature-toggles">
               <div className="feature-toggle" onClick={() => setAlarmSound(!alarmSound)}>

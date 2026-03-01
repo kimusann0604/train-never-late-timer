@@ -32,6 +32,11 @@ const MOCK_CANDIDATES = [
     lng: 135.734395,
     formattedAddress: "奈良先端科学技術大学院大学（奈良県生駒市）",
   },
+  {
+    lat: 34.65272,
+    lng: 135.390306,
+    formattedAddress: "夢洲駅（大阪府大阪市此花区）",
+  },
 ];
 
 // テスト用ユーザー位置（東京駅付近）
